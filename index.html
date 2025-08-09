@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sort Favorite Foods by Length — Selection Sort</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      margin:0;
+      background: linear-gradient(135deg,#fff6fb 0%, #f1f7ff 100%);
+      color:#222;
+    }
+    .card{
+      width:min(780px,94%);
+      background: #fff;
+      border-radius:12px;
+      box-shadow: 0 8px 30px rgba(12,20,40,0.08);
+      padding:20px;
+    }
+    h1{ margin:0 0 12px 0; font-size:1.25rem; }
+    pre { background:#f8f8fb; padding:12px; border-radius:8px; overflow:auto; }
+    .row { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+    button {
+      background:#b38feb; color:white; border:none; padding:10px 14px; border-radius:8px;
+      cursor:pointer; font-weight:600;
+    }
+    small.note { display:block; margin-top:8px; color:#666; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Selection Sort — sort my favorite foods by length</h1>
+
+    
+    <p>
+      This demo shows a simple **Selection Sort** implementation in JavaScript that orders strings
+      by length (shortest → longest). Click "Sort" to run the algorithm on the demo list.
+    </p>
+
+    <div>
+      <strong>Before:</strong>
+      <pre id="before"></pre>
+    </div>
+
+    <div>
+      <strong>After:</strong>
+      <pre id="after">[not sorted yet]</pre>
+    </div>
+
+    <div class="row">
+      <button id="sortBtn">Sort (Selection Sort)</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <small class="note">Implementation uses an in-place selection sort; O(n²) worst-case time complexity. (Educational/demo use)</small>
+  </main>
+
+  <script>
+    
+    const initialFoods = ["pizza", "sushi", "ramen", "burger", "tacos", "idli", "pasta", "spring roll"];
+
+
+    function renderList(elId, arr) {
+      document.getElementById(elId).textContent = JSON.stringify(arr, null, 2);
+    }
+
+    
+    function selectionSortByLength(arr) {
+      
+      const n = arr.length;
+      for (let i = 0; i < n - 1; i++) {
+       
+        let minIndex = i;
+
+        
+        for (let j = i + 1; j < n; j++) {
+          if (arr[j].length < arr[minIndex].length) {
+            minIndex = j;
+          }
+        }
+
+        
+        if (minIndex !== i) {
+          const tmp = arr[i];
+          arr[i] = arr[minIndex];
+          arr[minIndex] = tmp;
+        }
+        
+      }
+      return arr;
+    }
+
+    
+    let foods = [...initialFoods]; 
+    renderList("before", foods);
+
+    document.getElementById("sortBtn").addEventListener("click", () => {
+      
+      const arr = [...foods];
+      selectionSortByLength(arr);
+      renderList("after", arr);
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      foods = [...initialFoods];
+      renderList("before", foods);
+      document.getElementById("after").textContent = "[not sorted yet]";
+    });
+
+    
+    console.log("Initial foods:", foods);
+    
+  </script>
+</body>
+</html>
